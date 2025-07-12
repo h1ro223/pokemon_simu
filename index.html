@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>3DS風ポケモンバトルXY本家寄せ</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="ds-frame">
+      <!-- 上画面 -->
+      <div class="upper-screen">
+        <img src="png/haikei.png" alt="haikei" class="battle-bg" />
+        <!-- 敵フィールド楕円 -->
+        <img src="png/field.png" class="field-oval enemy" draggable="false" />
+        <img id="opp-sprite" class="poke-xy enemy" />
+        <div class="status-bar enemy">
+          <span class="name-lv"
+            ><span class="name" id="opp-name"></span>
+            <span class="lv" id="opp-lv"></span
+          ></span>
+          <div class="hp-row">
+            <span class="hp-label">HP</span>
+            <div class="hp-bar-bg">
+              <div class="hp-bar" id="opp-hp-bar"></div>
+            </div>
+            <span class="hp-num" id="opp-hp-num"></span>
+          </div>
+        </div>
+        <!-- 味方フィールド楕円 -->
+        <img src="png/field.png" class="field-oval player" draggable="false" />
+        <img id="player-sprite" class="poke-xy player" />
+        <div class="status-bar player">
+          <span class="name-lv"
+            ><span class="name" id="player-name"></span>
+            <span class="lv" id="player-lv"></span
+          ></span>
+          <div class="hp-row">
+            <span class="hp-label">HP</span>
+            <div class="hp-bar-bg">
+              <div class="hp-bar" id="player-hp-bar"></div>
+            </div>
+            <span class="hp-num" id="player-hp-num"></span>
+          </div>
+        </div>
+        <div class="fade-black" id="fade-black"></div>
+      </div>
+      <!-- 下画面 -->
+      <div class="lower-screen">
+        <div class="message" id="message">戦闘がはじまった！</div>
+        <div class="move-menu" id="move-menu"></div>
+        <div class="audio-controls">
+          BGM音量:
+          <input type="range" min="0" max="100" value="35" id="volume-range" />
+        </div>
+        <div class="lv-select-row">
+          ヒトカゲLv:
+          <input
+            type="number"
+            id="player-lv-input"
+            value="50"
+            min="1"
+            max="100"
+          />
+          フシギダネLv:
+          <input type="number" id="opp-lv-input" value="50" min="1" max="100" />
+          <button id="lv-apply">適用</button>
+        </div>
+      </div>
+      <!-- オーディオ -->
+      <audio id="battle-bgm" src="mp3/battle.mp3" loop></audio>
+      <audio id="win-bgm" src="mp3/win.mp3"></audio>
+      <audio id="se-hinoko" src="mp3/hinoko.mp3"></audio>
+      <audio id="se-hik" src="mp3/hik.mp3"></audio>
+      <audio id="se-naki" src="mp3/naki.mp3"></audio>
+      <audio id="se-tai" src="mp3/tai.mp3"></audio>
+      <audio id="se-turu" src="mp3/turu.mp3"></audio>
+    </div>
+    <script src="battle.js"></script>
+  </body>
+</html>
