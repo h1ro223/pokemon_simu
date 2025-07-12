@@ -1,0 +1,361 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #151b30;
+  font-family: "Meiryo", "Arial", sans-serif;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ds-frame {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 320px;
+}
+
+/* 3DS上下画面を常に1:1比率で分割（最大900px正方形） */
+.screen-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vw;
+  max-width: 900px;
+  max-height: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+.upper-screen,
+.lower-screen {
+  width: 100%;
+  height: 50%;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.upper-screen {
+  background: #b2f0d2;
+}
+.lower-screen {
+  background: #fcf7ed;
+  box-shadow: 0 -4px 18px #aaa3 inset;
+  border-radius: 0 0 24px 24px;
+  padding-bottom: 7px;
+}
+
+/* 森背景 */
+.battle-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  min-width: 100%;
+  min-height: 100%;
+  pointer-events: none;
+}
+
+/* XY本家風 楕円フィールド配置 */
+.field-oval {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  user-select: none;
+  object-fit: contain;
+}
+.field-oval.player {
+  left: 10%;
+  bottom: 10%;
+  width: 25%;
+  min-width: 60px;
+  max-width: 180px;
+  height: auto;
+}
+.field-oval.enemy {
+  right: 13%;
+  top: 17%;
+  width: 15%;
+  min-width: 42px;
+  max-width: 110px;
+  height: auto;
+}
+.poke-xy {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 16px 36px #234c);
+  user-select: none;
+  z-index: 6;
+}
+.poke-xy.enemy {
+  right: 17%;
+  top: 14%;
+  width: 17%;
+  max-width: 110px;
+  min-width: 32px;
+}
+.poke-xy.player {
+  left: 10%;
+  bottom: 13%;
+  width: 23%;
+  max-width: 165px;
+  min-width: 40px;
+}
+
+/* ステータスバー本家寄せ */
+.status-bar {
+  position: absolute;
+  background: rgba(16, 16, 19, 0.92);
+  color: #fff;
+  border-radius: 13px;
+  box-shadow: 0 2px 10px #2349;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 6px 16px 5px 13px;
+  min-width: 118px;
+  max-width: 182px;
+  min-height: 38px;
+  pointer-events: none;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  user-select: none;
+}
+.status-bar.enemy {
+  right: 7%;
+  top: 6.5%;
+  align-items: flex-end;
+}
+.status-bar.player {
+  left: 7%;
+  bottom: 8.5%;
+  align-items: flex-start;
+}
+/* 名前レベル */
+.name-lv {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 1.5px;
+}
+.lv {
+  font-size: 14px;
+  font-weight: 400;
+  color: #fffbe9;
+  opacity: 0.85;
+}
+/* HPバー本家風：横並び */
+.hp-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+.hp-label {
+  font-size: 13px;
+  color: #e4f06b;
+  font-weight: bold;
+  margin-right: 1.5px;
+  min-width: 23px;
+  text-align: right;
+}
+.hp-bar-bg {
+  background: #373737;
+  width: 74px;
+  height: 9px;
+  border-radius: 7px;
+  box-shadow: 0 1px 3px #aaa7;
+  margin: 0 3px;
+  overflow: hidden;
+}
+.hp-bar {
+  height: 100%;
+  border-radius: 7px;
+  transition: width 0.45s cubic-bezier(0.79, 0.08, 0.48, 1.1), background 0.32s;
+}
+.hp-bar.green {
+  background: #62f060;
+}
+.hp-bar.yellow {
+  background: #ffe048;
+}
+.hp-bar.red {
+  background: #fa3232;
+}
+.hp-num {
+  font-size: 11px;
+  margin-left: 3px;
+  color: #e4e4e4;
+  font-family: Consolas, monospace;
+  min-width: 43px;
+  text-align: left;
+}
+
+/* fade黒 */
+.fade-black {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  text-shadow: 0 2px 12px #000, 0 0 32px #1de;
+}
+.fade-black.show {
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+/* 下画面UI */
+.lower-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 20;
+}
+.message {
+  margin: 15px 10px 8px 10px;
+  padding: 13px 9px;
+  min-height: 36px;
+  background: #f6eddc;
+  border-radius: 7px;
+  border: 1.7px solid #e3d19e;
+  font-size: 18px;
+  font-weight: 500;
+  min-width: 120px;
+  max-width: 740px;
+  text-align: center;
+  letter-spacing: 0.01em;
+  z-index: 20;
+}
+.move-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+  justify-content: center;
+  margin: 0 10px 10px 10px;
+  width: 100%;
+}
+.move-btn {
+  flex: 1 1 30%;
+  min-width: 90px;
+  max-width: 250px;
+  min-height: 38px;
+  font-size: 20px;
+  background: #fff;
+  border: 1.7px solid #c8ae57;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 1px 5px #bb9e36a8;
+  margin-bottom: 2px;
+  transition: background 0.14s;
+}
+.move-btn:disabled {
+  background: #f5f3f0;
+  color: #aaa;
+  border-color: #ddd;
+}
+.move-pp {
+  font-size: 11px;
+  color: #997;
+  font-weight: 400;
+  position: absolute;
+  bottom: 3px;
+  right: 11px;
+}
+.audio-controls {
+  font-size: 15px;
+  margin: 0 17px 2px 0;
+  color: #333;
+  text-align: right;
+  user-select: none;
+  align-self: flex-end;
+}
+.lv-select-row {
+  margin: 4px 0 0 0;
+  font-size: 16px;
+  color: #444;
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.lv-select-row input[type="number"] {
+  width: 44px;
+  font-size: 15px;
+  padding: 2px 5px;
+  margin: 0 5px;
+}
+.lv-select-row button {
+  font-size: 15px;
+  padding: 2px 10px;
+  border-radius: 5px;
+  background: #f3eabe;
+  border: 1.2px solid #cab95c;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.lv-select-row button:hover {
+  background: #fcf8d2;
+}
+
+/* スマホのときは画面全域+ボタンやフォントUP */
+@media (max-width: 900px), (max-height: 900px) {
+  .screen-wrap {
+    max-width: 100vw;
+    max-height: 100vw;
+    width: 100vw;
+    height: 100vw;
+  }
+  .upper-screen,
+  .lower-screen {
+    width: 100%;
+    height: 50%;
+  }
+  .move-btn {
+    font-size: 5vw !important;
+    min-width: 22vw !important;
+    min-height: 9vw !important;
+    padding: 2vw 0;
+  }
+  .message {
+    font-size: 4vw !important;
+    padding: 2vw 1vw;
+  }
+  .status-bar {
+    font-size: 3.3vw;
+    min-width: 19vw;
+  }
+}
