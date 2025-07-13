@@ -1,0 +1,393 @@
+body {
+  background: #22253a;
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Noto Sans JP", "Meiryo", "sans-serif";
+  letter-spacing: 0.01em;
+}
+.ds-frame {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.upper-screen {
+  position: relative;
+  width: 100vw;
+  max-width: 1100px;
+  aspect-ratio: 16/9;
+  background: #000;
+  overflow: hidden;
+  border-radius: 32px 32px 0 0;
+  box-shadow: 0 4px 32px #0007;
+}
+.battle-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 立ち絵配置（PC基準値） */
+.poke-xy {
+  position: absolute;
+  z-index: 2;
+  object-fit: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+  transition: left 0.16s, right 0.16s, top 0.16s, bottom 0.16s, width 0.16s,
+    height 0.16s;
+}
+.poke-xy.player {
+  left: 13vw;
+  bottom: 11vh;
+  width: 11vw;
+  height: auto;
+  max-width: 180px;
+  max-height: 180px;
+}
+.poke-xy.enemy {
+  right: 13vw;
+  top: 10vh;
+  width: 8.5vw;
+  height: auto;
+  max-width: 145px;
+  max-height: 145px;
+}
+
+/* ステータスバー */
+.status-bar {
+  position: absolute;
+  background: rgba(20, 20, 20, 0.97);
+  border-radius: 13px;
+  color: #fff;
+  font-family: inherit;
+  box-shadow: 0 2px 14px #0008;
+  z-index: 5;
+  padding: 6px 18px 9px 15px;
+  min-width: 108px;
+  font-size: 1.05em;
+  transition: left 0.16s, right 0.16s, top 0.16s, bottom 0.16s, width 0.16s,
+    font-size 0.16s;
+}
+.status-bar.player {
+  left: 8vw;
+  bottom: 3vh;
+  min-width: 140px;
+  font-size: 1.18em;
+  padding: 8px 14px 11px 16px;
+}
+.status-bar.enemy {
+  right: 8vw;
+  top: 4vh;
+  min-width: 112px;
+  font-size: 1.01em;
+  padding: 7px 14px 9px 13px;
+}
+
+/* 名前・HP行 */
+.name-lv .name {
+  font-size: 1.08em;
+  font-weight: bold;
+  letter-spacing: 0.01em;
+}
+.name-lv .lv {
+  font-size: 1em;
+  margin-left: 6px;
+}
+.hp-row {
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+}
+.hp-label {
+  color: #ffef41;
+  font-size: 1em;
+  font-weight: bold;
+  margin-right: 5px;
+}
+.hp-bar-bg {
+  width: 63px;
+  height: 9px;
+  background: #252;
+  border-radius: 5px;
+  margin: 0 2px;
+  overflow: hidden;
+}
+.hp-bar {
+  height: 9px;
+  border-radius: 5px;
+  transition: width 0.3s;
+  background: linear-gradient(90deg, #77ee79 80%, #42d23c 100%);
+}
+.hp-bar.green {
+  background: linear-gradient(90deg, #77ee79 80%, #42d23c 100%);
+}
+.hp-bar.yellow {
+  background: linear-gradient(90deg, #ffe04b 80%, #efc01d 100%);
+}
+.hp-bar.red {
+  background: linear-gradient(90deg, #ff6a48 80%, #e92600 100%);
+}
+.hp-num {
+  font-size: 1em;
+  font-weight: bold;
+  margin-left: 7px;
+  min-width: 48px;
+  text-align: right;
+}
+
+/* 下画面UI */
+.lower-screen {
+  width: 100vw;
+  max-width: 1100px;
+  background: #faf7ef;
+  border-radius: 0 0 28px 28px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 32px #0002;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  padding-bottom: 8px;
+}
+.message {
+  width: 98%;
+  min-height: 28px;
+  margin: 14px 0 8px 0;
+  background: #fff6e2;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.04rem;
+  padding: 8px 0;
+  border: 2px solid #eed6a2;
+}
+.move-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  margin: 8px 0 2px 0;
+  width: 100%;
+}
+.move-btn {
+  font-size: 1.01rem;
+  font-family: inherit;
+  padding: 8px 0 4px 0;
+  min-width: 168px;
+  border-radius: 10px;
+  border: 2px solid #f7ca7a;
+  background: #fff;
+  color: #262626;
+  font-weight: bold;
+  box-shadow: 2px 4px 14px #d8b06033;
+  letter-spacing: 0.5px;
+  transition: filter 0.1s, box-shadow 0.15s;
+}
+.move-btn:active {
+  filter: brightness(0.93);
+  box-shadow: 0 0 0 #0000;
+}
+.move-btn[disabled] {
+  filter: grayscale(0.75) brightness(0.89);
+  background: #eee;
+  color: #bbb;
+  cursor: not-allowed;
+}
+
+.options-btn-area {
+  text-align: right;
+  width: 100%;
+  margin-top: 2px;
+  margin-right: 13px;
+}
+#options-btn {
+  font-size: 1.22rem;
+  background: none;
+  border: none;
+  color: #bbb;
+  cursor: pointer;
+  transition: color 0.18s;
+  margin-left: 8px;
+  border-radius: 8px;
+  padding: 1px 8px;
+}
+#options-btn:hover {
+  color: #ffcf2b;
+  background: #ffe8a8;
+}
+
+.options-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #0007;
+  display: none;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.options-panel.show {
+  display: flex;
+}
+.options-panel > div {
+  background: #fff;
+  border-radius: 15px;
+  padding: 19px 28px;
+  min-width: 170px;
+  box-shadow: 0 4px 36px #2a181899;
+  position: relative;
+  font-size: 0.99rem;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+}
+.close-btn:hover {
+  color: #fa4;
+}
+
+.replay-area {
+  margin-top: 7px;
+  text-align: center;
+}
+#replay-btn {
+  font-size: 1.03rem;
+  font-family: inherit;
+  border-radius: 7px;
+  border: 2px solid #c6ba7d;
+  padding: 5px 18px;
+  background: #fff6e2;
+  color: #333;
+  margin: 0 auto;
+  box-shadow: 2px 4px 10px #a0984133;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.13s;
+}
+#replay-btn:active {
+  background: #f5e7bf;
+}
+
+/* スマホ/小画面対応 */
+@media (max-width: 900px) {
+  .upper-screen,
+  .lower-screen {
+    width: 100vw;
+    max-width: 100vw;
+  }
+  .ds-frame {
+    max-width: 100vw;
+  }
+  .poke-xy,
+  .poke-xy.player,
+  .poke-xy.enemy {
+    max-width: 90px !important;
+    max-height: 90px !important;
+  }
+  .poke-xy.player {
+    left: 7vw;
+    bottom: 7vw;
+    width: 18vw;
+  }
+  .poke-xy.enemy {
+    right: 8vw;
+    top: 10vw;
+    width: 14vw;
+  }
+  .status-bar {
+    font-size: 0.94rem;
+    min-width: 88px;
+    padding: 4px 10px 5px 10px;
+  }
+  .status-bar.enemy {
+    right: 2vw;
+    top: 2vw;
+  }
+  .status-bar.player {
+    left: 2vw;
+    bottom: 2vw;
+  }
+  .hp-bar-bg {
+    width: 30px;
+  }
+  .message {
+    font-size: 0.99rem;
+  }
+  .move-btn {
+    min-width: 68px;
+    font-size: 0.86rem;
+    padding: 6px 0 2px 0;
+  }
+  .options-panel > div {
+    min-width: 105px;
+    font-size: 0.93rem;
+  }
+}
+@media (max-width: 600px) {
+  .upper-screen,
+  .lower-screen {
+    width: 100vw;
+    max-width: 100vw;
+    border-radius: 0;
+  }
+  .ds-frame {
+    max-width: 100vw;
+  }
+  .poke-xy,
+  .poke-xy.player,
+  .poke-xy.enemy {
+    max-width: 65px !important;
+    max-height: 65px !important;
+  }
+  .poke-xy.player {
+    left: 5vw;
+    bottom: 7vw;
+    width: 22vw;
+  }
+  .poke-xy.enemy {
+    right: 7vw;
+    top: 9vw;
+    width: 18vw;
+  }
+  .status-bar {
+    font-size: 0.71rem;
+    min-width: 44px;
+    padding: 2px 4px 3px 6px;
+  }
+  .status-bar.enemy {
+    right: 2vw;
+    top: 2vw;
+  }
+  .status-bar.player {
+    left: 2vw;
+    bottom: 2vw;
+  }
+  .hp-bar-bg {
+    width: 17px;
+  }
+  .message {
+    font-size: 0.91rem;
+  }
+  .move-btn {
+    min-width: 32px;
+    font-size: 0.65rem;
+    padding: 2px 0 1px 0;
+  }
+}
